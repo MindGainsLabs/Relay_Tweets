@@ -1,506 +1,464 @@
-# 🚀 Discord Extract Application
+# 🚀 Relay Tweets Application
 
-Bem-vindo ao **Discord Extract**, uma aplicação desenvolvida em **Node.js** que permite extrair e encaminhar mensagens do Discord para o Telegram utilizando bots. Este guia fornecerá todas as etapas necessárias para que outra pessoa consiga implantar e executar esta aplicação em uma **VPS Windows**.
-
----
-
-## 📋 Sumário
-
-1. [📌 Requisitos](#-requisitos)
-2. [🔧 Configuração da VPS Windows](#-configuração-da-vps-windows)
-3. [💻 Instalação das Ferramentas Necessárias](#-instalação-das-ferramentas-necessárias)
-   - [1. Instalar Node.js](#1-instalar-nodejs)
-   - [2. Instalar MongoDB](#2-instalar-mongodb)
-   - [3. Instalar Git](#3-instalar-git)
-4. [📥 Clonar o Repositório](#-clonar-o-repositório)
-5. [⚙️ Configurar Variáveis de Ambiente](#️-configurar-variáveis-de-ambiente)
-   - [Criar e Configurar o Arquivo `.env`](#criar-e-configurar-o-arquivo-env)
-6. [📦 Instalar Dependências](#-instalar-dependências)
-   - [Instalar Dependências Node.js](#instalar-dependências-nodejs)
-7. [🔐 Configuração dos Bots Discord e Telegram](#-configuração-dos-bots-discord-e-telegram)
-   - [A. Configurar Bot no Discord](#a-configurar-bot-no-discord)
-   - [B. Configurar Bot no Telegram](#b-configurar-bot-no-telegram)
-8. [🚀 Executar a Aplicação](#-executar-a-aplicação)
-9. [🔄 Configurar a Aplicação para Iniciar Automaticamente](#-configurar-a-aplicação-para-iniciar-automaticamente)
-   - [Usando o NSSM (Non-Sucking Service Manager)](#usando-o-nssm-non-sucking-service-manager)
-10. [🛡️ Configurar Firewall](#️-configurar-firewall)
-11. [✅ Testar a Implantação](#-testar-a-implantação)
-12. [📝 Manutenção e Dicas Adicionais](#-manutenção-e-dicas-adicionais)
-13. [📚 Recursos Adicionais](#-recursos-adicionais)
+Welcome to **Relay Tweets**, an application developed in **Node.js** that allows you to extract and forward messages from Discord to Telegram automatically. This guide provides all the necessary steps to deploy and run this application on an **Ubuntu VPS**.
 
 ---
 
-## 📌 Requisitos
+## 📋 Table of Contents
 
-Antes de iniciar, certifique-se de que você possui:
-
-- **Acesso a uma VPS Windows** com privilégios administrativos.
-- **Conta no Discord** e **Bot Token**.
-- **Conta no Telegram** e **Bot Token**.
-- **Conhecimento básico** em linha de comando e configuração de serviços no Windows.
-
----
-
-## 🔧 Configuração da VPS Windows
-
-### 1. Acesso à VPS
-
-- **RDP (Remote Desktop Protocol):**
-  - Use o **Remote Desktop Connection** para acessar sua VPS.
-  - Abra o RDP no seu computador local e insira o endereço IP da VPS, juntamente com as credenciais fornecidas pelo provedor.
-
-### 2. Atualização do Sistema
-
-- **Atualize o Windows:**
-  - Acesse **Configurações** > **Atualização e Segurança** > **Windows Update**.
-  - Clique em **Verificar atualizações** e instale todas as atualizações pendentes.
-  
-- **Reinicie a VPS** se necessário após as atualizações.
-
----
-
-## 💻 Instalação das Ferramentas Necessárias
-
-### 1. Instalar Node.js
-
-1. **Baixar Node.js:**
-   - Acesse [Node.js Oficial](https://nodejs.org/) e baixe a versão **LTS** recomendada para Windows.
-
-2. **Instalar Node.js:**
-   - Execute o instalador baixado.
-   - Siga as instruções na tela, certificando-se de **incluir o Node.js no PATH**.
-
-3. **Verificar Instalação:**
-   - Abra o **Prompt de Comando** (CMD) ou **PowerShell**.
-   - Execute:
-     ```powershell
-     node -v
-     npm -v
-     ```
-   - Ambas as versões devem ser exibidas sem erros.
-
-### 2. Instalar MongoDB
-
-1. **Baixar MongoDB Community Server:**
-   - Acesse [MongoDB Download](https://www.mongodb.com/try/download/community) e escolha a versão para Windows.
-
-2. **Instalar MongoDB:**
-   - Execute o instalador.
-   - **Configurações Importantes:**
-     - Selecione **Complete** durante a instalação.
-     - Marque a opção **"Install MongoDB as a Service"** para que o MongoDB inicie automaticamente com o Windows.
-     - Defina o **Data Directory** (o padrão geralmente é suficiente).
-
-3. **Verificar Instalação:**
-   - Abra o **Prompt de Comando** ou **PowerShell**.
-   - Execute:
-     ```powershell
-     mongo --version
-     ```
-   - A versão do MongoDB deve ser exibida.
-
-### 3. Instalar Git
-
-1. **Baixar Git:**
-   - Acesse [Git Oficial](https://git-scm.com/download/win) e baixe o instalador para Windows.
-
-2. **Instalar Git:**
-   - Execute o instalador baixado.
-   - Siga as instruções na tela, mantendo as configurações padrão recomendadas.
-
-3. **Verificar Instalação:**
-   - Abra o **Prompt de Comando** ou **PowerShell**.
-   - Execute:
-     ```powershell
-     git --version
-     ```
-   - A versão do Git deve ser exibida.
+1. [📌 Requirements](#-requirements)
+2. [🔧 Ubuntu VPS Setup](#-ubuntu-vps-setup)
+3. [💻 Installing Necessary Tools](#-installing-necessary-tools)
+   - [Install Node.js](#install-nodejs)
+   - [Install MongoDB](#install-mongodb)
+   - [Install Git](#install-git)
+4. [📥 Clone the Repository](#-clone-the-repository)
+5. [⚙️ Configure Environment Variables](#%EF%B8%8F-configure-environment-variables)
+   - [Create and Configure the `.env` File](#create-and-configure-the-env-file)
+6. [📦 Install Dependencies](#-install-dependencies)
+   - [Install Node.js Dependencies](#install-nodejs-dependencies)
+7. [🔐 Discord and Telegram Bot Setup](#-discord-and-telegram-bot-setup)
+   - [Configure Discord Bot](#configure-discord-bot)
+   - [Configure Telegram Bot](#configure-telegram-bot)
+8. [🚀 Run the Application](#-run-the-application)
+9. [🔄 Configure the Application for Automatic Startup](#-configure-the-application-for-automatic-startup)
+   - [Using PM2](#using-pm2)
+10. [🛡️ Configure Firewall](#%EF%B8%8F-configure-firewall)
+11. [✅ Test Deployment](#-test-deployment)
+12. [📝 Maintenance and Additional Tips](#-maintenance-and-additional-tips)
+13. [📚 Additional Resources](#-additional-resources)
+14. [🔗 Useful Links](#-useful-links)
+15. [📜 Description](#-description)
+16. [🛠️ Technologies Used](#technologies-used)
+17. [📋 Features](#-features)
+18. [📜 Responsibilities](#-responsibilities)
+19. [📂 Project Structure](#-project-structure)
+20. [🔗 Integrations](#-integrations)
+21. [📦 Dependencies](#-dependencies)
+22. [⚙️ Configuration](#%EF%B8%8F-configuration)
+23. [🚀 Usage](#-usage)
+24. [📜 License](#-license)
 
 ---
 
-## 📥 Clonar o Repositório
+## 📌 Requirements
 
-1. **Navegar até o Diretório Desejado:**
-   - Abra o **Prompt de Comando** ou **PowerShell**.
-   - Navegue até o diretório onde deseja clonar o projeto:
-     ```powershell
-     cd C:\caminho\para\diretorio
-     ```
+Before starting, ensure you have:
 
-2. **Clonar o Repositório:**
-   - Execute o comando de clonagem:
-     ```powershell
-     git clone https://github.com/usuario/repo-discord-extract.git
-     ```
-   - **Nota:** Substitua `https://github.com/usuario/repo-discord-extract.git` pelo URL real do seu repositório.
+- **Access to an Ubuntu VPS** with administrative privileges.
+- **A Discord account** with a bot token.
+- **A Telegram account** with a bot token.
+- **Basic knowledge** of command-line usage and Linux service configuration.
 
 ---
 
-## ⚙️ Configurar Variáveis de Ambiente
+## 🔧 Ubuntu VPS Setup
 
-### Criar e Configurar o Arquivo `.env`
+### 1. Access the VPS
 
-1. **Navegar até o Diretório Node.js:**
-   ```powershell
-   cd C:\caminho\para\repo-discord-extract\discord_extract_node
+- **Connect via SSH:**
+  ```bash
+  ssh user@vps_ip
+  ```
+  Replace `user` with your VPS username and `vps_ip` with the server’s IP address.
+
+### 2. Update the System
+
+- **Update Ubuntu packages:**
+  ```bash
+  sudo apt update && sudo apt upgrade -y
+  ```
+
+---
+
+## 💻 Installing Necessary Tools
+
+### Install Node.js
+
+1. **Add the NodeSource Repository:**
+   ```bash
+   curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+   ```
+2. **Install Node.js:**
+   ```bash
+   sudo apt install -y nodejs
+   ```
+3. **Verify Installation:**
+   ```bash
+   node -v && npm -v
    ```
 
-2. **Criar o Arquivo `.env`:**
-   - No **Explorer**, dentro de discord_extract_node, crie um arquivo chamado `.env`.
+### Install MongoDB
 
-3. **Adicionar as Variáveis ao `.env`:**
+1. **Import the MongoDB Public Key:**
+   ```bash
+   wget -qO - https://www.mongodb.org/static/pgp/server-4.4.asc | sudo apt-key add -
+   ```
+2. **Create the MongoDB Repository List File:**
+   ```bash
+   echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
+   ```
+3. **Update Package List and Install MongoDB:**
+   ```bash
+   sudo apt update && sudo apt install -y mongodb-org
+   ```
+4. **Start and Enable MongoDB:**
+   ```bash
+   sudo systemctl start mongod && sudo systemctl enable mongod
+   ```
+5. **Verify Installation:**
+   ```bash
+   mongo --version
+   ```
 
-   Abra o arquivo `.env` com um editor de texto (como o **Notepad**) e adicione:
+### Install Git
+
+1. **Install Git:**
+   ```bash
+   sudo apt install -y git
+   ```
+2. **Verify Installation:**
+   ```bash
+   git --version
+   ```
+
+---
+
+## 📥 Clone the Repository
+
+1. **Navigate to the Desired Directory:**
+   ```bash
+   cd /path/to/directory
+   ```
+2. **Clone the Repository:**
+   ```bash
+   git clone https://github.com/user/repo-Relay_Tweets.git
+   cd repo-Relay_Tweets
+   ```
+
+---
+
+## ⚙️ Configure Environment Variables
+
+### Create and Configure the `.env` File
+
+1. **Create the `.env` File:**
+   ```bash
+   nano .env
+   ```
+2. **Add the Environment Variables:**
    ```env
-   # MongoDB Configuration
-   MONGO_URI=mongodb://localhost:27017/scrapping-tweets-smarteye
+   API_URL=
+   TOKEN_DISCORD=
+   CHANNEL_ID=
+   TELEGRAM_TOKEN=
+   TELEGRAM_CHAT_ID=
+   PORT=
+   MONGO_URI=
 
-   # Discord API Credentials
-   TOKEN_DISCORD=seu_token_discord
-   CHANNEL_ID=123456789012345678
-
-   # Telegram Bot Configuration
-   TELEGRAM_BOT_TOKEN=seu_telegram_bot_token
-   TELEGRAM_CHAT_ID=987654321
-
-   # Cron Job Configuration
-   CRON_SCHEDULE=*/30 * * * * *
-   CRON_HOURS=6
-
-   # Servidor
-   PORT=80
+   MONGO_URI_TEST=
    ```
 
-   **Descrição das Variáveis:**
-
-   - **MONGO_URI:** URI de conexão com o MongoDB.
-   - **TOKEN_DISCORD:** Token do seu bot Discord.
-   - **CHANNEL_ID:** ID do canal Discord de onde as mensagens serão extraídas.
-   - **TELEGRAM_BOT_TOKEN:** Token do seu bot Telegram.
-   - **TELEGRAM_CHAT_ID:** ID do chat Telegram para onde as mensagens serão enviadas.
-   - **CRON_SCHEDULE:** Expressão cron para agendamento da coleta de mensagens (por padrão, a cada 30 segundos).
-   - **CRON_HOURS:** Número de horas para retroceder ao coletar mensagens.
-   - **PORT:** Porta onde o servidor Node.js irá rodar (80 para HTTP padrão).
-
-   **Exemplo Completo de `.env`:**
-   ```env
-   # MongoDB Configuration
-   MONGO_URI=mongodb://localhost:27017/scrapping-tweets-smarteye
-
-   # Discord API Credentials
-   TOKEN_DISCORD=ODk5MDM3NjA1NTkzOTYw.YGmGgQ.QjzU9OgZrD4zm0YQ0i3mfxqwHSE
-   CHANNEL_ID=123456789012345678
-
-   # Telegram Bot Configuration
-   TELEGRAM_BOT_TOKEN=123456789:ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
-   TELEGRAM_CHAT_ID=987654321
-
-   # Cron Job Configuration
-   CRON_SCHEDULE=*/30 * * * * *
-   CRON_HOURS=6
-
-   # Servidor
-   PORT=80
-   ```
-
-   **Notas:**
-
-   - **Segurança:** Garanta que este arquivo `.env` **não seja compartilhado** ou versionado no controle de versão público, pois contém credenciais sensíveis.
-   - **Formatação:** Certifique-se de que não haja espaços adicionais e que os valores estejam corretos.
+   **Security Notes:**
+   - Ensure the `.env` file is **not shared** or committed to version control.
+   - Double-check the formatting and correct values before running the application.
 
 ---
 
-## 📦 Instalar Dependências
+## 📦 Install Dependencies
 
-### Instalar Dependências Node.js
+### Install Node.js Dependencies
 
-1. **Navegar até o Diretório Node.js:**
-   ```powershell
-   cd C:\caminho\para\repo-discord-extract\discord_extract_node
+1. **Navigate to the Project Directory:**
+   ```bash
+   cd /path/to/repo-Relay_Tweets
    ```
-
-2. **Instalar Dependências:**
-   ```powershell
+2. **Install Dependencies:**
+   ```bash
    npm install
    ```
-   
-   **Nota:**
-   - Certifique-se de que o arquivo `package.json` está corretamente configurado com todas as dependências necessárias.
-
-3. **Verificar Dependências Instaladas:**
-   - Após a instalação, uma pasta `node_modules` deve existir dentro de discord_extract_node.
+3. **Verify Installation:**
+   - Ensure the `node_modules` folder exists within Relay_Tweets.
 
 ---
 
-## 🔐 Configuração dos Bots Discord e Telegram
+## 🔐 Discord and Telegram Bot Setup
 
-### A. Configurar Bot no Discord
+### A. Configure Bot on Discord
 
-1. **Criar um Bot no Discord:**
-   - Acesse o [Discord Developer Portal](https://discord.com/developers/applications).
-   - Clique em **"New Application"** e dê um nome para o seu aplicativo.
+1. **Create a Bot on Discord:**
+   - Go to the [Discord Developer Portal](https://discord.com/developers/applications).
+   - Click **"New Application"** and name your application.
    
-2. **Obter o Token do Bot:**
-   - No menu lateral, vá para **"Bot"**.
-   - Clique em **"Add Bot"** e confirme.
-   - Em **"TOKEN"**, clique em **"Copy"** para obter o Token do Bot. **Guarde-o com segurança**.
+2. **Obtain the Bot Token:**
+   - In the side menu, go to **"Bot"**.
+   - Click **"Add Bot"** and confirm.
+   - Under **"TOKEN"**, click **"Copy"** to obtain the Bot Token. **Keep it secure**.
 
-3. **Convidar o Bot para seu Servidor:**
-   - Ainda no Developer Portal, vá para **"OAuth2"** > **"URL Generator"**.
-   - Em **"Scopes"**, selecione **"bot"**.
-   - Em **"Bot Permissions"**, selecione as permissões necessárias (por exemplo, **"Read Messages"**, **"Send Messages"**, etc.).
-   - Copie a URL gerada e abra-a no navegador para convidar o bot ao seu servidor Discord.
+3. **Invite the Bot to Your Server:**
+   - Still in the Developer Portal, go to **"OAuth2"** > **"URL Generator"**.
+   - In **"Scopes"**, select **"bot"**.
+   - In **"Bot Permissions"**, select the necessary permissions (e.g., **"Read Messages"**, **"Send Messages"**, etc.).
+   - Copy the generated URL and open it in a browser to invite the bot to your server.
 
-4. **Obter o ID do Canal Discord:**
-   - No Discord, ative o **"Modo de Desenvolvedor"** em **Configurações** > **Avançado** > **Modo de Desenvolvedor**.
-   - Clique com o botão direito no canal desejado e selecione **"Copiar ID"** para obter o `CHANNEL_ID`.
+4. **Obtain the Discord Channel ID:**
+   - In Discord, enable **"Developer Mode"** in **Settings** > **Advanced** > **Developer Mode**.
+   - Right-click the desired channel and select **"Copy ID"** to obtain the `CHANNEL_ID`.
 
-### B. Configurar Bot no Telegram
+### B. Configure Bot on Telegram
 
-1. **Criar um Bot no Telegram:**
-   - Abra o Telegram e inicie uma conversa com o [BotFather](https://t.me/BotFather).
-   - Envie o comando `/newbot` e siga as instruções para criar um novo bot.
-   - Após a criação, o BotFather fornecerá um **Token de API** para o bot. **Guarde-o com segurança**.
+1. **Create a Bot on Telegram:**
+   - Open Telegram and start a chat with [BotFather](https://t.me/BotFather).
+   - Send the command `/newbot` and follow the instructions to create a new bot.
+   - After creation, BotFather will provide an **API Token** for the bot. **Keep it secure**.
 
-2. **Obter o Chat ID do Telegram:**
-   - Inicie uma conversa com o seu bot Telegram.
-   - Envie uma mensagem qualquer.
-   - Para obter o `TELEGRAM_CHAT_ID`, você pode usar a API do Telegram ou ferramentas como [Get IDs](https://getids.xyz/):
+2. **Obtain the Telegram Chat ID:**
+   - Start a conversation with your Telegram bot.
+   - Send any message.
+   - To obtain the `TELEGRAM_CHAT_ID`, use the Telegram API or tools like [Get IDs](https://getids.xyz/):
 
-     - Abra a URL:
+     - Open the URL:
        ```
        https://api.telegram.org/bot<YOUR_BOT_TOKEN>/getUpdates
        ```
-       Substitua `<YOUR_BOT_TOKEN>` pelo token do seu bot.
-     - Encontre o `chat.id` na resposta JSON.
+       Replace `<YOUR_BOT_TOKEN>` with your bot's token.
+     - Find the `chat.id` in the JSON response.
 
 ---
 
-## 🚀 Executar a Aplicação
+## 🚀 Run the Application
 
-1. **Navegar até o Diretório Node.js:**
-   ```powershell
-   cd C:\caminho\para\repo-discord-extract\discord_extract_node
+1. **Navigate to the Node.js Directory:**
+   ```bash
+   cd /path/to/repo-Relay_Tweets
    ```
 
-2. **Iniciar a Aplicação:**
-   ```powershell
+2. **Start the Application:**
+   ```bash
    npm run start
    ```
    
-   - **Alternativamente**, execute diretamente com Node.js:
-     ```powershell
+   - **Alternatively**, run directly with Node.js:
+     ```bash
      node index.js
      ```
 
-   - **Saída Esperada:**
+   - **Expected Output:**
      ```
-     Conectado ao MongoDB
-     Cron job agendado com a seguinte expressão: "*/30 * * * * *"
-     Servidor rodando em http://localhost:80
+     Connected to MongoDB
+     Cron job scheduled with the following expression: "*/2 * * * * *"
+     Server running at http://localhost:80
      ```
 
-3. **Acessar a Interface Web:**
-   - Abra um navegador e vá para `http://<IP_DA_SUA_VPS>`.
-   - A página **"Extrator de Mensagens Discord"** deve ser exibida.
+3. **Access the Web Interface:**
+   - Open a browser and go to `http://<YOUR_VPS_IP>`.
+   - The **"Discord Message Extractor"** page should be displayed.
 
 ---
 
-## 🔄 Configurar a Aplicação para Iniciar Automaticamente
+## 🔄 Configure the Application for Automatic Startup
 
-### Usando o NSSM (Non-Sucking Service Manager)
+### Using PM2
 
-O **NSSM** permite executar aplicações Node.js como serviços do Windows, garantindo que a aplicação inicie automaticamente com o sistema.
+**PM2** allows Node.js applications to run as services on Linux, ensuring that the application starts automatically with the system.
 
-1. **Baixar o NSSM:**
-   - Acesse o [Site Oficial do NSSM](https://nssm.cc/download) e baixe a versão adequada para Windows.
-   - Extraia o arquivo baixado para um diretório, por exemplo, `C:\nssm`.
+1. **Install PM2:**
+   ```bash
+   sudo npm install -g pm2
+   ```
 
-2. **Adicionar o Caminho do NSSM ao PATH (Opcional):**
-   - Para facilitar o uso do NSSM a partir de qualquer diretório, adicione `C:\nssm\win64\bin` (ou o diretório correspondente) ao **PATH** do sistema:
-     - Clique com o botão direito em **Este Computador** > **Propriedades** > **Configurações Avançadas do Sistema**.
-     - Clique em **Variáveis de Ambiente**.
-     - Em **Variáveis do Sistema**, encontre e selecione **Path**, depois clique em **Editar**.
-     - Clique em **Novo** e adicione o caminho para o diretório `bin` do NSSM.
-     - Clique em **OK** em todas as janelas para aplicar as mudanças.
+2. **Start the Application with PM2:**
+   ```bash
+   pm2 start index.js --name Relay_Tweets
+   ```
 
-3. **Criar um Serviço para a Aplicação Node.js:**
+3. **Set PM2 to Start on System Boot:**
+   ```bash
+   pm2 startup systemd
+   ```
 
-   - **Abrir o Prompt de Comando** ou **PowerShell** como **Administrador**.
+4. **Save the Current PM2 State:**
+   ```bash
+   pm2 save
+   ```
 
-   - **Adicionar o Serviço:**
-     ```batch
-     nssm install DiscordExtract_Node
-     ```
-
-   - **Configurar o Serviço no NSSM GUI:**
-     - **Application > Path:**
-       - Navegue até o executável do Node.js, geralmente localizado em:
-         ```
-         C:\Program Files\nodejs\node.exe
-         ```
-     - **Application > Startup Directory:**
-       - Navegue até o diretório da aplicação:
-         ```
-         C:\caminho\para\repo-discord-extract\discord_extract_node
-         ```
-     - **Application > Arguments:**
-       - Adicione `index.js` ou utilize o script definido no `package.json`:
-         ```
-         index.js
-         ```
-     - **Logs (Opcional):**
-       - Na aba **I/O**, você pode definir arquivos de log para stdout e stderr para facilitar o debug.
-
-     - **Finalizar a Configuração:**
-       - Clique em **Install Service** para concluir a criação do serviço.
-
-4. **Iniciar o Serviço:**
-
-   - **No Prompt de Comando** ou **PowerShell**, execute:
-     ```batch
-     nssm start DiscordExtract_Node
-     ```
-   
-   - **Verificar Status:**
-     - Abra o **Gerenciador de Serviços** (services.msc) e localize `DiscordExtract_Node`.
-     - Verifique se o serviço está **Em Execução**.
-
-5. **Configurar o Serviço para Iniciar Automaticamente:**
-
-   - Por padrão, o serviço deve estar configurado para **Iniciar Automaticamente**.
-   - No **Gerenciador de Serviços**, clique com o botão direito em `DiscordExtract_Node` > **Propriedades**.
-   - Em **Tipo de Inicialização**, selecione **Automático**.
-   - Clique em **OK** para salvar as configurações.
+5. **Check PM2 Status:**
+   ```bash
+   pm2 status
+   ```
 
 ---
 
-## 🛡️ Configurar Firewall
+## 🛡️ Configure Firewall
 
-Para que a aplicação seja acessível externamente, é necessário garantir que as portas utilizadas estejam abertas.
+To ensure the application is accessible externally, make sure the necessary ports are open.
 
-### Passo a Passo
+### Step-by-Step
 
-1. **Abrir Porta no Firewall do Windows:**
+1. **Open the Port on Ubuntu Firewall:**
 
-   - **Abra o "Windows Defender Firewall com Segurança Avançada":**
-     - Pressione `Win + R`, digite `wf.msc` e pressione **Enter**.
-
-   - **Criar uma Nova Regra de Entrada:**
-     - No painel esquerdo, clique em **Regras de Entrada**.
-     - No painel direito, clique em **Nova Regra...**.
-
-   - **Configurar a Regra:**
-     - **Tipo de Regra:** Porta
-     - **Protocolos e Portas:** TCP e portas específicas (por exemplo, `80` para HTTP ou outra porta definida no `.env`)
-     - **Ação:** Permitir a conexão
-     - **Perfil:** Selecionar conforme necessário (Domínio, Privado, Público)
-     - **Nome:** `DiscordExtract_WebServer`
-
-   - **Finalizar a Regra:**
-     - Clique em **Concluir**.
-
-2. **Verificar a Conexão:**
-
-   - Acesse `http://<IP_DA_SUA_VPS>:80` no navegador para verificar se o servidor está rodando.
-   - **Substitua** `<IP_DA_SUA_VPS>` pelo endereço IP da sua VPS.
-
----
-
-## ✅ Testar a Implantação
-
-1. **Acessar a Aplicação via Navegador:**
-
-   - Abra um navegador e vá para `http://<IP_DA_SUA_VPS>:80`.
-   - A página **"Extrator de Mensagens Discord"** deve ser exibida.
-
-2. **Testar a Funcionalidade:**
-
-   - **Extrair Mensagens:**
-     - Insira o **ID do Canal Discord** ou deixe em branco para canal geral.
-     - Defina o número de **horas** para retroceder.
-     - Clique em **"Extrair Mensagens"**.
-
-   - **Verificar Resultados:**
-     - Após o processamento, os links para download das mensagens devem aparecer na seção **Resultados**.
-
-3. **Verificar MongoDB:**
-
-   - Use uma ferramenta como **MongoDB Compass** ou **Mongo Shell** para conectar ao seu banco de dados e verificar se as mensagens estão sendo armazenadas corretamente.
-     ```powershell
-     mongo
-     use scrapping-tweets-smarteye
-     db.messages.find().pretty()
+   - **Use UFW (Uncomplicated Firewall):**
+     ```bash
+     sudo ufw allow 80/tcp
+     sudo ufw enable
+     sudo ufw status
      ```
 
-4. **Verificar Envio para Telegram:**
+2. **Check Connection:**
 
-   - Acesse o chat Telegram vinculado ao seu bot e verifique se as mensagens extraídas do Discord estão sendo enviadas corretamente.
+   - Access `http://<YOUR_VPS_IP>:80` in a browser to verify if the server is running.
+   - **Replace** `<YOUR_VPS_IP>` with your VPS's IP address.
 
 ---
 
-## 📝 Manutenção e Dicas Adicionais
+## ✅ Test Deployment
 
-- **Atualizações de Segurança:**
-  - Mantenha o Windows e todas as ferramentas (**Node.js**, **MongoDB**) atualizados para garantir segurança e desempenho.
+After configuring and starting the application, test the deployment by verifying if messages are being extracted correctly from Discord channels and if notifications are being sent to Telegram. Check the application logs to ensure there are no errors and that all functionalities are operating as expected.
 
-- **Monitoramento de Logs:**
-  - Verifique os logs gerados pela aplicação e serviços para identificar e resolver possíveis problemas.
-  - Se configurou logs no NSSM, verifique os arquivos de log especificados.
+---
 
-- **Backup do Banco de Dados:**
-  - Realize backups periódicos do MongoDB para evitar perda de dados.
-  - Utilize ferramentas como **mongodump** para criar backups:
-    ```powershell
-    mongodump --db scrapping-tweets-smarteye --out C:\backup\scrapping-tweets-smarteye
+## 📝 Maintenance and Additional Tips
+
+- **Dependency Updates**: Keep project dependencies updated to ensure security and stability.
+- **Monitoring**: Implement monitoring and alerts to track application health and detect issues quickly.
+- **Backups**: Regularly back up the database to prevent data loss.
+
+---
+
+## 📚 Additional Resources
+
+- **Discord API Documentation**: [Discord Developer Portal](https://discord.com/developers/docs/intro)
+- **Rugcheck API Documentation**: [Rugcheck API Documentation](https://api.rugcheck.xyz/docs)
+- **Telegram API Documentation**: [Telegram Bot API](https://core.telegram.org/bots/api)
+
+---
+
+## 🔗 Useful Links
+
+- **Node.js**: [Node.js Official Website](https://nodejs.org/)
+- **Express**: [Express Official Website](https://expressjs.com/)
+- **Mongoose**: [Mongoose Official Website](https://mongoosejs.com/)
+- **Axios**: [Axios GitHub Repository](https://github.com/axios/axios)
+- **dotenv**: [dotenv GitHub Repository](https://github.com/motdotla/dotenv)
+- **tweetnacl**: [tweetnacl GitHub Repository](https://github.com/dchest/tweetnacl-js)
+- **tweetnacl-util**: [tweetnacl-util GitHub Repository](https://github.com/dchest/tweetnacl-util-js)
+
+---
+
+## 📜 Description
+
+The Relay Tweets Application is developed to extract messages from Discord channels and perform analysis and verification using various APIs and services. The application can authenticate, fetch reports, and send notifications to Telegram.
+
+---
+
+## 🛠️ Technologies Used
+
+- **Node.js**: JavaScript development platform.
+- **Express**: API development framework.
+- **Axios**: HTTP client for making requests.
+- **Mongoose**: MongoDB data modeling library.
+- **dotenv**: Environment variable management.
+- **tweetnacl**: Library for cryptography and message signing.
+- **tweetnacl-util**: Utilities for encoding and decoding data in the `tweetnacl` library.
+
+---
+
+## 📋 Features
+
+- **Message Extraction**: Extracts messages from Discord channels within a specified time frame.
+- **Authentication**: Authenticates with the Rugcheck API to obtain token reports.
+- **Token Analysis**: Fetches token reports using the Rugcheck API.
+- **Notifications**: Sends notifications to Telegram with extracted and analyzed messages.
+- **Storage**: Stores extracted messages in MongoDB.
+
+---
+
+## 📜 Responsibilities
+
+- **messageService.js**: Responsible for extracting messages from Discord channels and performing analyses.
+- **rugcheckService.js**: Responsible for authenticating and retrieving token reports from the Rugcheck API.
+- **telegramService.js**: Responsible for sending notifications to Telegram.
+- **server.js**: Initializes the server and configures API routes.
+
+---
+
+## 📂 Project Structure
+
+```
+/Relay_Tweets
+├── public
+│   ├── css
+│   ├── js
+│   └── index.html
+├── src
+│   ├── controllers
+│   │   └── messageController.js
+│   ├── models
+│   │   └── Message.js
+│   ├── routes
+│   │   └── messageRoutes.js
+│   ├── services
+│   │   ├── messageService.js
+│   │   ├── rugcheckService.js
+│   │   └── telegramService.js
+│   ├── utils
+│   │   └── formatter.js
+│   └── server.js
+├── .env
+├── .gitignore
+├── package.json
+└── README.md
+```
+
+## 🔗 Integrations
+
+- **Discord API**: Used to extract messages from Discord channels.
+- **Rugcheck API**: Used to authenticate and retrieve token reports.
+- **Telegram API**: Used to send notifications with extracted and analyzed messages.
+
+## 📦 Dependencies
+
+- **axios**: ^0.21.1
+- **dotenv**: ^8.2.0
+- **express**: ^4.17.1
+- **mongoose**: ^5.10.9
+- **tweetnacl**: ^1.0.3
+- **tweetnacl-util**: ^0.15.1
+
+## ⚙️ Configuration
+
+1. Clone the repository:
+    ```bash
+    git clone https://github.com/your-username/scrapping-tweets-smarteye.git
+    cd scrapping-tweets-smarteye/Relay_Tweets
     ```
 
-- **Gestão de Dependências:**
-  - Mantenha as dependências do Node.js atualizadas. Use `npm update` regularmente:
-    ```powershell
-    npm update
+2. Install dependencies:
+    ```bash
+    npm install
     ```
 
-- **Segurança das Credenciais:**
-  - Nunca compartilhe seu arquivo `.env` ou quaisquer credenciais sensíveis.
-  - Considere utilizar ferramentas de gerenciamento de segredos para ambientes de produção.
+3. Configure environment variables in the `.env` file:
+    ```env
+    API_URL=https://server.example.com
+    TOKEN_DISCORD=YourDiscordTokenHere
+    TELEGRAM_TOKEN=YourTelegramBotTokenHere
+    TELEGRAM_CHAT_ID=YourTelegramChatIdHere
+    PORT=80
+    MONGO_URI=YourMongoDBConnectionURIHere
+    MONGO_URI_TEST=YourMongoTestDBConnectionURIHere
+    CHANNEL_ID=ChannelID
+    ```
 
-- **Gerenciamento de Serviços:**
-  - Utilize o **NSSM** para gerenciar o serviço Node.js, permitindo reinicializações automáticas em caso de falhas.
+4. Start the application:
+    ```bash
+    npm start
+    ```
 
----
+## 🚀 Usage
 
-## 📚 Recursos Adicionais
+The application will extract messages from configured Discord channels, analyze tokens mentioned in the messages using the Rugcheck API, and send notifications to Telegram with the analysis results.
 
-- **Node.js:**
-  - [Documentação Oficial](https://nodejs.org/en/docs/)
-  
-- **MongoDB:**
-  - [Documentação Oficial](https://docs.mongodb.com/)
-  
-- **Discord Developer Portal:**
-  - [Documentação Oficial](https://discord.com/developers/docs/intro)
-  
-- **Telegram Bot API:**
-  - [Documentação Oficial](https://core.telegram.org/bots/api)
-  
-- **NSSM (Gerenciamento de Serviços):**
-  - [Site Oficial](https://nssm.cc/)
-  
-- **Métodos para Obter Chat ID no Telegram:**
-  - [Get IDs](https://getids.xyz/)
-  
-- **Express.js:**
-  - [Documentação Oficial](https://expressjs.com/)
+## 📜 License
 
----
-
-# 🔗 Links Úteis
-
-- **GitHub Repository:** [https://github.com/usuario/repo-discord-extract](https://github.com/usuario/repo-discord-extract) *(Substitua pelo link real)*
-- **MongoDB Download:** [https://www.mongodb.com/try/download/community](https://www.mongodb.com/try/download/community)
-- **Node.js Download:** [https://nodejs.org/](https://nodejs.org/)
-- **Git Download:** [https://git-scm.com/download/win](https://git-scm.com/download/win)
-- **NSSM Download:** [https://nssm.cc/download](https://nssm.cc/download)
-- **Discord Developer Portal:** [https://discord.com/developers/applications](https://discord.com/developers/applications)
-- **Telegram BotFather:** [https://t.me/BotFather](https://t.me/BotFather)
+This project is licensed under the MIT license. See the LICENSE file for more details.
