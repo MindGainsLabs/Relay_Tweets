@@ -328,7 +328,6 @@ After configuring and starting the application, test the deployment by verifying
 ## 📚 Additional Resources
 
 - **Discord API Documentation**: [Discord Developer Portal](https://discord.com/developers/docs/intro)
-- **Rugcheck API Documentation**: [Rugcheck API Documentation](https://api.rugcheck.xyz/docs)
 - **Telegram API Documentation**: [Telegram Bot API](https://core.telegram.org/bots/api)
 
 ---
@@ -366,8 +365,6 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 ## 📋 Features
 
 - **Message Extraction**: Extracts messages from Discord channels within a specified time frame.
-- **Authentication**: Authenticates with the Rugcheck API to obtain token reports.
-- **Token Analysis**: Fetches token reports using the Rugcheck API.
 - **Notifications**: Sends notifications to Telegram with extracted and analyzed messages.
 - **Storage**: Stores extracted messages in MongoDB.
 
@@ -376,7 +373,6 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 ## 📜 Responsibilities
 
 - **messageService.js**: Responsible for extracting messages from Discord channels and performing analyses.
-- **rugcheckService.js**: Responsible for authenticating and retrieving token reports from the Rugcheck API.
 - **telegramService.js**: Responsible for sending notifications to Telegram.
 - **server.js**: Initializes the server and configures API routes.
 
@@ -399,7 +395,6 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 │   │   └── messageRoutes.js
 │   ├── services
 │   │   ├── messageService.js
-│   │   ├── rugcheckService.js
 │   │   └── telegramService.js
 │   ├── utils
 │   │   └── formatter.js
@@ -413,7 +408,6 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 ## 🔗 Integrations
 
 - **Discord API**: Used to extract messages from Discord channels.
-- **Rugcheck API**: Used to authenticate and retrieve token reports.
 - **Telegram API**: Used to send notifications with extracted and analyzed messages.
 
 ## 📦 Dependencies
@@ -422,8 +416,6 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 - **dotenv**: ^8.2.0
 - **express**: ^4.17.1
 - **mongoose**: ^5.10.9
-- **tweetnacl**: ^1.0.3
-- **tweetnacl-util**: ^0.15.1
 
 ## ⚙️ Configuration
 
@@ -457,7 +449,7 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 
 ## 🚀 Usage
 
-The application will extract messages from configured Discord channels, analyze tokens mentioned in the messages using the Rugcheck API, and send notifications to Telegram with the analysis results.
+The application will extract messages from configured Discord channel and send notifications to Telegram with the analysis results.
 
 ## 📜 License
 
