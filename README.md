@@ -429,8 +429,8 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-username/scrapping-tweets-smarteye.git
-    cd scrapping-tweets-smarteye/Relay_Tweets
+    git clone https://github.com/your-username/Relay_Tweets.git
+    cd Relay_Tweets
     ```
 
 2. Install dependencies:
