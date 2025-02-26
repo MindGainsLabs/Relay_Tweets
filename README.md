@@ -339,8 +339,6 @@ After configuring and starting the application, test the deployment by verifying
 - **Mongoose**: [Mongoose Official Website](https://mongoosejs.com/)
 - **Axios**: [Axios GitHub Repository](https://github.com/axios/axios)
 - **dotenv**: [dotenv GitHub Repository](https://github.com/motdotla/dotenv)
-- **tweetnacl**: [tweetnacl GitHub Repository](https://github.com/dchest/tweetnacl-js)
-- **tweetnacl-util**: [tweetnacl-util GitHub Repository](https://github.com/dchest/tweetnacl-util-js)
 
 ---
 
@@ -357,8 +355,6 @@ The Relay Tweets Application is developed to extract messages from Discord chann
 - **Axios**: HTTP client for making requests.
 - **Mongoose**: MongoDB data modeling library.
 - **dotenv**: Environment variable management.
-- **tweetnacl**: Library for cryptography and message signing.
-- **tweetnacl-util**: Utilities for encoding and decoding data in the `tweetnacl` library.
 
 ---
 
